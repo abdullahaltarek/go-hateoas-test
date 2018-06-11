@@ -1,0 +1,1 @@
+# GO REST API Implementing HATEOAS

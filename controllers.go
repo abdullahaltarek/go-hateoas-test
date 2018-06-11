@@ -21,7 +21,7 @@ func GetAllBooks(c context.Context) {
 
 	var returnBooks []Book
 
-	for _, j := range booksList{
+	for _, j := range booksList {
 		self := map[string]string{"FilterByThisGenre": "http://" + c.Host() + "/api/books/" + j.ID.Hex()}
 		j.Links = append(j.Links, self)
 
@@ -41,12 +41,14 @@ func GetSingleBook(c context.Context) {
 			c.StatusCode(404)
 			c.JSON(iris.Map{"msg": "sorry, not found"})
 			return
-		}
-		self := map[string]string{"self": "http://" + c.Host() + "/api/books/?genre=" + strings.Replace(book.Genre, " ", "+", -1)}
-		book.Links = append(book.Links, self)
+		} else {
+			self := map[string]string{"self": "http://" + c.Host() + "/api/books/?genre=" + strings.Replace(book.Genre, " ", "+", -1)}
+			book.Links = append(book.Links, self)
 
-		c.StatusCode(200)
-		c.JSON(book)
+			c.StatusCode(200)
+			c.JSON(book)
+		}
+
 	} else {
 		c.StatusCode(404)
 		c.JSON(iris.Map{"msg": "sorry, not found"})
@@ -91,11 +93,11 @@ func UpdateBook(c context.Context) {
 			if err != nil {
 				c.StatusCode(500)
 				return
+			} else {
+				c.StatusCode(200)
+				c.JSON(book)
 			}
-			c.StatusCode(200)
-			c.JSON(book)
 		}
-
 	} else {
 		c.StatusCode(404)
 		c.JSON(iris.Map{"msg": "sorry, not found"})
@@ -120,5 +122,4 @@ func DeleteBook(c context.Context) {
 		c.StatusCode(404)
 		c.JSON(iris.Map{"msg": "sorry, not found"})
 	}
-
 }
