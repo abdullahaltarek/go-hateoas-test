@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/kataras/iris"
 	"gopkg.in/mgo.v2"
-	"github.com/kataras/iris/context"
 	"github.com/kataras/iris/middleware/logger"
 )
 
@@ -29,9 +28,6 @@ func main() {
 	booksRoute.Put("/:bookId", UpdateBook)
 	booksRoute.Delete("/:bookId", DeleteBook)
 
-	booksRoute.Get("/values/{id}", func(ctx context.Context) {
-		ctx.WriteString("value")
-	})
 
 	app.Run(iris.Addr(":8021"))
 }
